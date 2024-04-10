@@ -1,31 +1,20 @@
 import csv
 import re
 
-# Fonctions nécessaires
 def convert_timestamp(timestamp):
-    # Convertit le timestamp en un format sans les deux-points
-    return timestamp.replace(':', '')
+    # Découpe le timestamp en ses composantes
+    hours, minutes, seconds, micro_part = map(int, timestamp.split(':'))
+    # Convertit les heures, minutes et secondes en millisecondes
+    # Convertit la partie micro (ici, dixièmes de millisecondes) en millisecondes en divisant par 10
+    total_milliseconds = ((hours * 3600) + (minutes * 60) + seconds) * 1000 + micro_part / 10
+    return int(total_milliseconds)
 
 # Fonction pour vérifier si une ligne correspond au format de ligne CAN attendu
 def is_can_line(line):
     return bool(re.match(r'\d{2}:\d{2}:\d{2}:\d{4}\s+Rx\s+\d\s+0x[\dA-Fa-f]+', line))
 
-
-def calculate_offset(messages):
-    # Trouve le premier timestamp pour l'utiliser comme offset
-    if messages:
-        return int(messages[0][0])
-    return 0
-
-def adjust_timestamps(messages, offset):
-    # Ajuste chaque timestamp en soustrayant l'offset
-    for i in range(len(messages)):
-        timestamp, message_id_hex, data_format, data_length, data_hex = messages[i]
-        adjusted_timestamp = int(timestamp) - offset
-        messages[i] = (str(adjusted_timestamp), message_id_hex, data_format, data_length, data_hex)
-
 # Lecture et écriture du fichier CSV initial
-chemin_log = "./LOG/JJE_LOG_M1.log"
+chemin_log = "./LOG/JJElogV74_P0_M5.log"
 chemin_csv_sortie = "./output.csv"
 
 messages_can = []
@@ -44,14 +33,6 @@ with open(chemin_log, 'r') as log_file:
                 hex_data_str = ' '.join(hex_data_matches)
                 messages_can.append((timestamp, message_id_hex, data_format, data_length, hex_data_str))
 
-# Trier les messages CAN par timestamp pour s'assurer que l'offset est basé sur le premier message
-messages_can.sort(key=lambda x: x[0])
-
-# Calculer l'offset basé sur le premier message
-offset = calculate_offset(messages_can)
-
-# Ajuster les timestamps des messages
-adjust_timestamps(messages_can, offset)
 
 with open(chemin_csv_sortie, 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile)
