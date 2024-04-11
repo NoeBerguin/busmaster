@@ -14,7 +14,7 @@ def is_can_line(line):
     return bool(re.match(r'\d{2}:\d{2}:\d{2}:\d{4}\s+Rx\s+\d\s+0x[\dA-Fa-f]+', line))
 
 # Lecture et écriture du fichier CSV initial
-chemin_log = "./LOG/JJElogV74_P0_M5.log"
+chemin_log = "./LOG/CATL/BUSMASTERLogFile_2024-04-10_CATL_Discharge_complete.log"
 chemin_csv_sortie = "./output.csv"
 
 messages_can = []

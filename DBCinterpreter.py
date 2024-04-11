@@ -37,7 +37,7 @@ def dbc_to_csv(dbc_path, output_path, csv_output_path):
     df.to_csv(csv_output_path, index=False)
     print(f"Fichier CSV généré : {csv_output_path}")
 
-dbc_path = './DBC/JJE_CAN_V251.dbc'
+dbc_path = './DBC/CATL_Protocol_A-CAN_V3.4_210705.dbc'
 output_path = './output.csv'
-csv_output_path = './output_filled.csv'
+csv_output_path = './CATL/BUSMASTERLogFile_2024-04-10_CATL_Discharge_complete.csv'
 dbc_to_csv(dbc_path, output_path, csv_output_path)
