@@ -78,20 +78,10 @@ class CANLogProcessor:
                     data_dict[signal].append(last_known_values[signal])
             except (KeyError, ValueError):
                 continue
-            self.print_progress(index + 1, len(messages_can))
+            self.update_progress(index + 1, len(messages_can))
 
         df = pd.DataFrame(data_dict)
         df.to_csv(self.csv_final_output_path, index=False)
         print(f'\nFichier CSV généré : {self.csv_final_output_path}')
 
-def main():
-    log_path = "./LOG/JJElogV74_P0_M5.log"
-    dbc_path = './DBC/JJE_CAN_V251.dbc'
-    csv_final_output_path = './JJElogV74_P0_M5_complete.csv'
-    
-    processor = CANLogProcessor(log_path, dbc_path, csv_final_output_path)
-    messages_can = processor.log_to_messages()
-    processor.messages_to_csv(messages_can)
 
-if __name__ == "__main__":
-    main()

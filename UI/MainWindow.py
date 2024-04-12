@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import QFileDialog, QPlainTextEdit
 
 class Ui_LOGconverter(object):
     def setupUi(self, LOGconverter):
@@ -43,11 +43,11 @@ class Ui_LOGconverter(object):
         self.label_2 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
-        self.undoView = QtWidgets.QUndoView(parent=self.verticalLayoutWidget)
-        self.undoView.setObjectName("undoView")
-        self.verticalLayout.addWidget(self.undoView)
+        self.debugView = QPlainTextEdit(self.verticalLayoutWidget)
+        self.debugView.setObjectName("debugView")
+        self.verticalLayout.addWidget(self.debugView)
         self.progressBar = QtWidgets.QProgressBar(parent=self.verticalLayoutWidget)
-        self.progressBar.setProperty("value", 24)
+        self.progressBar.setProperty("value", 0)
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout.addWidget(self.progressBar)
         LOGconverter.setCentralWidget(self.centralwidget)
